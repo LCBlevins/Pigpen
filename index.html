@@ -67,17 +67,68 @@ body {
 							</div>
             <h4>Alphabet</h4>
             <div class="form-group">
-            <div id="alphabet"></div>
-                <label for="plaintext" class="h4">Plaintext</label>
-                <textarea class="form-control text-monospace" rows="3" id="plaintext" oninput="translateText();" spellcheck="false" placeholder="Type message here, or click on the alphabet symbols above."></textarea>
-                <label for="ciphertext" class="h4">Ciphertext</label>
-                <div class="form-control h-auto printme" id="ciphertext" style="min-height: 4em; font: Arial; font-size:20pt; font-weight: bold;"></div>
-                <button class="btn btn-success mt-1" onclick="cleartranslation();">Clear</button>
-								<button class="btn btn-success mt-1" onclick="printDiv();">Print</button>
+							<div id="alphabet"></div>
+							
+							<h4>Punctuation</h4>
+							<div id="punctuation">
+								<figure class="figure ml-1"><img src="file:///C:/Users/Landon/Desktop/Pigpen-main/img/key-enter.png" class="figure-img border border-dark" onclick="addsymbol('\n');" style="cursor: pointer;" alt="Newline"><figcaption class="figure-caption text-center"></figcaption></figure>
+								<figure class="figure ml-1"><img src="file:///C:/Users/Landon/Desktop/Pigpen-main/img/key-space.png" class="figure-img border border-dark" onclick="addsymbol(' ');" style="cursor: pointer;" alt="Space"><figcaption class="figure-caption text-center"></figcaption></figure>
+								<figure class="figure ml-1"><img src="file:///C:/Users/Landon/Desktop/Pigpen-main/img/key-comma.png" class="figure-img border border-dark" onclick="addsymbol(',');" style="cursor: pointer;" alt="Comma"><figcaption class="figure-caption text-center"></figcaption></figure>
+								<figure class="figure ml-1"><img src="file:///C:/Users/Landon/Desktop/Pigpen-main/img/key-period.png" class="figure-img border border-dark" onclick="addsymbol('.');" style="cursor: pointer;" alt="Period"><figcaption class="figure-caption text-center"></figcaption></figure>
+								<figure class="figure ml-1"><img src="file:///C:/Users/Landon/Desktop/Pigpen-main/img/key-exclaimationmark.png" class="figure-img border border-dark" onclick="addsymbol('!');" style="cursor: pointer;" alt="Exclaimation Mark"><figcaption class="figure-caption text-center"></figcaption></figure>
+								<figure class="figure ml-1"><img src="file:///C:/Users/Landon/Desktop/Pigpen-main/img/key-questionmark.png" class="figure-img border border-dark" onclick="addsymbol('?');" style="cursor: pointer;" alt="Question Mark"><figcaption class="figure-caption text-center"></figcaption></figure>
+							</div>
+							
+              <label for="plaintext" class="h4">Plaintext</label>
+              <textarea class="form-control text-monospace" rows="3" id="plaintext" oninput="translateText();" spellcheck="false" placeholder="Type message here, or click on the alphabet symbols above."></textarea>
+              
+							<label for="ciphertext" class="h4">Ciphertext</label>
+              <div class="form-control h-auto printme" id="ciphertext" style="min-height: 4em; font: Arial; font-size:20pt; font-weight: bold;"></div>
+              
+							<button class="btn btn-success mt-1" onclick="cleartranslation();">Clear</button>
+	  					<button class="btn btn-success mt-1" onclick="printDiv();">Print</button>
+							
+							<button class="btn btn-success mt-1" onclick="setCipher(prompt('input key:'));">Load Cipher</button>
+	  					<button class="btn btn-success mt-1" onclick="alert(getCipher());">Export Cipher</button>
             </div>
         </div>
 	</main>
 	<script>
+		function checkCipher(s1) {
+			s1 = s1.trim();
+			var r = new RegExp('^[0-9]+[-+]?[0-9]+$');
+			return r.test(s1);
+		}
+	
+		function setCipher(s1) {
+			try {
+				s1 = s1.trim();
+				if (checkCipher(s1)) {
+					var v = s1.substring(0,1);
+					var a = s1.substring(1);
+					
+					var variant = document.getElementById("variant").value = v;
+					
+					checkShiftMode();
+					getAlphabet();
+					
+					var ashift = document.getElementById("ashift").value = a;
+				} else {
+					alert("Invalid Cipher Code!");
+				}
+			} catch (ex) {
+				alert(ex);
+			}
+			
+			
+		}
+		
+		function getCipher() {
+			var variant = document.getElementById("variant").value.toString();
+			var ashift = document.getElementById("ashift").value.toString();
+		  return variant+ashift;
+		}
+	
 		var s = window.location.href.substr(0,window.location.href.lastIndexOf('/'))+"/img/pigpen-";
     initAlphabet();
 
