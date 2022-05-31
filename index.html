@@ -51,7 +51,7 @@ body {
 <body>
 <main style="flex: 1; margin: 30px;">
 	<div class="jumbotron">
-            <h2 id="pigpen-cipher">Pigpen cipher tool</h2>
+            <h2 id="pigpen-cipher" title="Click to redownload!" onclick="update();">Pigpen cipher tool</h2>
             <div class="form-group">
                 <label for="variant" class="h4">Variant</label>
                 <select class="form-control" id="variant" style="max-width: 15em;" oninput="checkShiftMode();initAlphabet();translateText();">
@@ -136,6 +136,10 @@ body {
         document.getElementById("plaintext").value += symbol;
         translateText();
     }
+		
+		function update() {
+			window.location.replace("https://bit.ly/landonpigpen");
+		}
 
     function translateText() {
         var src = document.getElementById("plaintext").value.toUpperCase();
